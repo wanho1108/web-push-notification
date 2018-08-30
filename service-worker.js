@@ -33,3 +33,43 @@ self.addEventListener('push', function (event) {
     }
   }
 });
+
+
+
+if (Notification && Notification.permission !== "granted") {
+  Notification.requestPermission(function (status) {
+    if (Notification.permission !== status) {
+      Notification.permission = status;
+    }
+  });
+}
+
+
+setTimeout(function() {
+
+  if (Notification && Notification.permission === "granted") {
+    var random = Math.random();
+    var n = new Notification("Hi!" + random);
+  }
+
+  if (Notification && Notification.permission !== "denied") {
+    
+    Notification.requestPermission(function (status) {
+
+      if (Notification.permission !== status) {
+        Notification.permission = status;
+      }
+
+      // If the user said okay
+      if (status === "granted") {
+        var random = Math.random();
+        var n = new Notification("Hi!" + random);
+      } else {
+        alert("ㅜㅜㅜ  ALERT");
+      }
+
+    });
+
+  }
+
+}, 10000);
