@@ -12,16 +12,16 @@ firebase.initializeApp(config);
 const messaging = firebase.messaging();
 messaging.requestPermission()
   .then(function () {
-    console.log('succ');
+    console.log('permission Ok');
     return messaging.getToken();
   })
   .then(function (token) {
-    console.log(token);
+    console.log('token:', token);
   })
   .catch(function () {
-    console.log('fail');
+    console.log('permission Fail');
   });
 
-messaging.onMessage(function (playload) {
+messaging.onMessage(function (payload) {
   console.log('onMessage:', payload);
 });

@@ -1,29 +1,34 @@
-importScripts('https://www.gstatic.com/firebasejs/5.4.1/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/5.4.1/firebase-messaging.js');
+// [START initialize_firebase_in_sw]
+// Give the service worker access to Firebase Messaging.
+// Note that you can only use Firebase Messaging here, other Firebase libraries
+// are not available in the service worker.
+importScripts('https://www.gstatic.com/firebasejs/3.5.2/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/3.5.2/firebase-messaging.js');
 
-// Initialize Firebase
-var config = {
-  apiKey: "AIzaSyAOx-I5-5_cwFP5dlRzwSASC14Ir59Tw1k",
-  authDomain: "web-push-notification-ed87d.firebaseapp.com",
-  databaseURL: "https://web-push-notification-ed87d.firebaseio.com",
-  projectId: "web-push-notification-ed87d",
-  storageBucket: "web-push-notification-ed87d.appspot.com",
-  messagingSenderId: "308094456605"
-};
-firebase.initializeApp(config);
+// Initialize the Firebase app in the service worker by passing in the
+// messagingSenderId.
+firebase.initializeApp({
+  'messagingSenderId': '308094456605'
+});
 
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
 const messaging = firebase.messaging();
+// [END initialize_firebase_in_sw]
 
-/*
+// If you would like to customize notifications that are received in the
+// background (Web app is closed or not in browser focus) then you should
+// implement this optional method.
+// [START background_handler]
+messaging.setBackgroundMessageHandler(function(payload) {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  // Customize notification here
+  const notificationTitle = 'Background Message Title';
+  const notificationOptions = {
+    body: 'Background Message body.'
+  };
 
-curl -X POST -H "Authorization: key=AIzaSyAOx-I5-5_cwFP5dlRzwSASC14Ir59Tw1k" -H "Content-Type: application/json" -d '{
-  "notification": {
-    "title": "Portugal vs. Denmark",
-    "body": "5 to 1",
-    "icon": "firebase-logo.png",
-    "click_action": "http://localhost:3000"
-  },
-  "to": "cYfICUq5PL4:APA91bGJnhT9lbsP-j3_VwZ2xCgINjIbTbi88wvrDP2tkk0aWoRo6uvdLkuL0cARTzZMWCGxXkGwjuRwF5eeTowkkEONYtCUfRRu35hDk3TzFV-IJhwCSAo5JIwnvIgl8TA3cMRz7Kg9"
-}' "https://fcm.googleapis.com/fcm/send"
-
-*/
+  return self.registration.showNotification(notificationTitle,
+      notificationOptions);
+});
+// [END background_handler]
