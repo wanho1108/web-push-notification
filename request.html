@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    var key = 'AIzaSyAOx-I5-5_cwFP5dlRzwSASC14Ir59Tw1k';
+    var to = 'cYfICUq5PL4:APA91bGJnhT9lbsP-j3_VwZ2xCgINjIbTbi88wvrDP2tkk0aWoRo6uvdLkuL0cARTzZMWCGxXkGwjuRwF5eeTowkkEONYtCUfRRu35hDk3TzFV-IJhwCSAo5JIwnvIgl8TA3cMRz7Kg9';
+    var notification = {
+      'title': 'Portugal vs. Denmark',
+      'body': '5 to 1',
+      'icon': 'firebase-logo.png',
+      'click_action': 'http://localhost:8081'
+    };
+
+    fetch('https://fcm.googleapis.com/fcm/send', {
+      'method': 'POST',
+      'headers': {
+        'Authorization': 'key=' + key,
+        'Content-Type': 'application/json'
+      },
+      'body': JSON.stringify({
+        'notification': notification,
+        'to': to
+      })
+    }).then(function(response) {
+      console.log(response);
+    }).catch(function(error) {
+      console.error(error);
+    })
+  </script>
+</body>
+</html>
