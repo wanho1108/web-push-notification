@@ -11,7 +11,7 @@
   <script>
     // register service worker:
     if (navigator.serviceWorker) {
-      navigator.serviceWorker.register('./service-worker.js').then(function() {
+      navigator.serviceWorker.register('./web-push-notification/service-worker.js').then(function() {
         return navigator.serviceWorker.ready;
       })
       .then(function(registration) {
