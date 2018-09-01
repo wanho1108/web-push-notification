@@ -16,6 +16,7 @@ messaging.requestPermission()
     return messaging.getToken();
   })
   .then(function (token) {
+    document.write(token);
     console.log('token:', token);
   })
   .catch(function () {
